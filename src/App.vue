@@ -13,7 +13,7 @@ export default {
       ],
       typeBox:"",
       current_question_counts:0,
-      question_counts:0,
+      question_counts:0
     }
   },
   methods: {
@@ -56,14 +56,10 @@ export default {
     <div class="typeFormWrapper mb-20">
       <input id="typeForm" v-model="typeBox" type="text" class="typeForm">
     </div>
-
-    <div class="gaugeWrapper">
-      <div :style="styleobject" class="gauge"></div>
     </div>
-    <div>{{current_question_counts}}/{{question_counts}}</div>
+    <div v-if="startFlg">{{current_question_counts}}/{{question_counts}}</div>
   </div>
-  
-</div>
+
 </template>
 
 <style>
@@ -121,12 +117,6 @@ template {
 .typeFormWrapper {
   border-bottom: 1px solid gray;
 }
-.gauge {
-  height: 12px;
-}
-.gaugeWrapper {
-  border: 1px solid;
-  height: 12px;
-}
+
 
 </style>
