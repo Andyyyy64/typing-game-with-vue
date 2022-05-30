@@ -19,6 +19,9 @@ export default {
   methods: {
     gameStart(){
       this.startFlg = true
+      this.$nextTick(function(){
+        document.getElementById("typeForm").focus()
+      })
     }
   },
   mounted(){
@@ -35,20 +38,6 @@ export default {
       }
     }
   },
-  computed: {
-    styleobject(){
-        width = 20 * this.current_question_counts + "%"
-        if(this.current_question_counts == 5){
-          color = "#03a9f4"
-        }else{
-          color = "orange"
-        }
-        return {
-          "width":width,
-          "background-color":color
-        }
-      },
-    }
 
 }
 </script>
@@ -65,7 +54,7 @@ export default {
     <div class="question">{{current_question}}</div>
     <div v-if="current_question_counts == question_counts" class="clear">Clear!</div>
     <div class="typeFormWrapper mb-20">
-      <input v-model="typeBox" type="text" class="typeForm">
+      <input id="typeForm" v-model="typeBox" type="text" class="typeForm">
     </div>
 
     <div class="gaugeWrapper">
