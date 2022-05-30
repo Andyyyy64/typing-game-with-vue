@@ -13,15 +13,12 @@ export default {
       ],
       typeBox:"",
       current_question_counts:0,
-      question_counts:0
+      question_counts:0,
     }
   },
   methods: {
     gameStart(){
       this.startFlg = true
-      this.$nextTick(function(){
-        document.getElementById("typeForm").focus()
-      })
     }
   },
   mounted(){
@@ -38,28 +35,44 @@ export default {
       }
     }
   },
-
+  computed: {
+    styleobject(){
+        var width = 20 * this.current_question_counts + "%"
+        if(this.current_question_counts == 5){
+          var color = "#03a9f4"
+        }else{
+           color = "orange"
+        }
+        return {
+          "width":width,
+          "background-color":color
+        }
+      },
+    }
 }
 </script>
 
 
 <template>
 <div class="contaier">
-  <div class="title">
-    <h1>Typing Game</h1>
-    <div class="marker"></div>
-  </div>
-  <button  v-if="!startFlg" @click="gameStart" class="startbutton mb-20">START</button>
-  <div v-if="startFlg">
-    <div class="question">{{current_question}}</div>
-    <div v-if="current_question_counts == question_counts" class="clear">Clear!</div>
-    <div class="typeFormWrapper mb-20">
-      <input id="typeForm" v-model="typeBox" type="text" class="typeForm">
+    <div class="title">
+      <h1>Typing Game</h1>
+      <div class="marker"></div>
     </div>
-    </div>
-    <div v-if="startFlg">{{current_question_counts}}/{{question_counts}}</div>
-  </div>
+    <button  v-if="!startFlg" @click="gameStart" class="startbutton mb-20">START</button>
+    <div v-if="startFlg">
+      <div class="question">{{current_question}}</div>
+      <div v-if="current_question_counts == question_counts" class="clear">Clear!</div>
+      <div class="typeFormWrapper mb-20">
+        <input v-model="typeBox" type="text" class="typeForm">
+      </div>
 
+      <div class="gaugeWrapper">
+        <div :style="styleobject" class="gauge"></div>
+      </div>
+      <div>{{current_question_counts}}/{{question_counts}}</div>
+    </div>
+</div>
 </template>
 
 <style>
@@ -117,6 +130,11 @@ template {
 .typeFormWrapper {
   border-bottom: 1px solid gray;
 }
-
-
+.gauge {
+  height: 12px;
+}
+.gaugeWrapper {
+  border: 1px solid;
+  height: 12px;
+}
 </style>
