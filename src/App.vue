@@ -1,32 +1,34 @@
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
       startFlg: "",
       current_question: "",
-      questions: [
-        "apple",
-        "banana",
-        "chocolate",
-        "donut",
-        "espresso"
-      ],
+      questions: undefined,
       typeBox: "",
       current_question_counts: 0,
       question_counts: 0,
     }
   },
   methods: {
-    gameStart() {
+    async gameStart() {
+
+      // APIから５つの英単語を取得して、questionsに格納する
+      const url = "https://random-word-api.herokuapp.com/word?number=5"
+      const response = await axios.get(url)
+      const newQuestions = response.data
+
+      this.questions = newQuestions
       this.startFlg = true
       this.$nextTick(function () {
         document.getElementById("typeForm").focus()
       })
+
+      this.current_question = newQuestions[0]
+      this.question_counts = newQuestions.length
     }
-  },
-  mounted() {
-    this.current_question = this.questions[0]
-    this.question_counts = this.questions.length
   },
   watch: {
     typeBox(e) {
