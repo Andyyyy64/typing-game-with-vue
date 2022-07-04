@@ -1,63 +1,3 @@
-<script>
-import axios from 'axios'
-
-export default {
-  data() {
-    return {
-      startFlg: "",
-      current_question: "",
-      questions: undefined,
-      typeBox: "",
-      current_question_counts: 0,
-      question_counts: 0,
-    }
-  },
-  methods: {
-    async gameStart() {
-
-      // APIから５つの英単語を取得して、questionsに格納する
-      const url = "https://random-word-api.herokuapp.com/word?number=5"
-      const response = await axios.get(url)
-      const newQuestions = response.data
-
-      this.questions = newQuestions
-      this.startFlg = true
-      this.$nextTick(function () {
-        document.getElementById("typeForm").focus()
-      })
-
-      this.current_question = newQuestions[0]
-      this.question_counts = newQuestions.length
-    }
-  },
-  watch: {
-    typeBox(e) {
-      if (e == this.current_question) {
-        this.questions.splice(0, 1)
-        this.current_question = this.questions[0]
-        this.typeBox = ""
-        this.current_question_counts = this.current_question_counts + 1
-      }
-    }
-  },
-  computed: {
-    styleobject() {
-      var width = 20 * this.current_question_counts + "%"
-      if (this.current_question_counts == 5) {
-        var color = "#03a9f4"
-      } else {
-        color = "orange"
-      }
-      return {
-        "width": width,
-        "background-color": color
-      }
-    },
-  }
-}
-</script>
-
-
 <template>
   <div class="contaier">
     <div class="title">
@@ -79,6 +19,61 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+import axios from 'axios'
+export default {
+  data() {
+    return {
+      startFlg: "",
+      current_question: "",
+      questions: undefined,
+      typeBox: "",
+      current_question_counts: 0,
+      question_counts: 0,
+    }
+  },
+  methods: {
+    async gameStart() {
+      // APIから５つの英単語を取得して、questionsに格納する
+      const url = "https://random-word-api.herokuapp.com/word?number=5"
+      const response = await axios.get(url)
+      const newQuestions = response.data
+      this.questions = newQuestions
+      this.startFlg = true
+      this.$nextTick(function () {
+        document.getElementById("typeForm").focus()
+      })
+      this.current_question = newQuestions[0]
+      this.question_counts = newQuestions.length
+    },
+  },
+  watch: {
+    typeBox(e) {
+      if (e == this.current_question) {
+        this.questions.splice(0, 1)
+        this.current_question = this.questions[0]
+        this.typeBox = ""
+        this.current_question_counts = this.current_question_counts + 1
+      }
+    }
+  },
+  computed: {
+    styleobject() {
+      const width = 10 * this.current_question_counts + "%"
+      if (this.current_question_counts == 5) {
+        var color = "#03a9f4"
+      } else {
+        color = "orange"
+      }
+      return {
+        "width": width,
+        "background-color": color
+      }
+    },
+  }
+}
+</script>
 
 <style>
 * {
